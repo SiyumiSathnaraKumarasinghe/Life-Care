@@ -1,0 +1,77 @@
+/* Whole Life Insurance Page Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7fb;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-family: Tahoma, Verdana, sans-serif;
+    color: #2c3e50;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto 2rem auto;
+}
+
+.whole-life-insurance {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 2rem;
+}
+
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.image-container {
+    flex: 1;
+    max-width: 500px;
+    margin-right: 2rem;
+}
+
+.main-image {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.description {
+    flex: 1;
+    max-width: 600px;
+}
+
+.description h1 {
+    text-align: left;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.description p {
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+    .image-container {
+        margin-bottom: 2rem;
+        max-width: 100%;
+    }
+}
