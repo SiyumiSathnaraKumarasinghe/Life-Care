@@ -5,49 +5,90 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Form submission handling
     const form = document.getElementById('claims-form');
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
+    if (form) {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
 
-        const formData = new FormData(form);
+            // Convert form data to a JSON object
+            const formData = new FormData(form);
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
 
-        fetch('/api/claims', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert("Claim submitted successfully!");
-            form.reset(); // Reset the form after submission
-        })
-        .catch(error => {
-            console.error('Error submitting the form:', error);
-            alert("There was an error submitting your claim. Please try again.");
+            // Send data to the backend API
+            fetch('/api/claims', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formObject), // Send the data as JSON
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        // Handle non-2xx HTTP responses
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message); // Display the success message
+                        form.reset(); // Reset the form after successful submission
+                    } else {
+                        alert("Error: No message received from the server.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting the form:', error);
+                    alert("There was an error submitting your claim. Please try again later.");
+                });
         });
-    });
+    } else {
+        console.error("Form with ID 'claims-form' not found.");
+    }
 });
 
 // Function to load the header HTML dynamically
 function loadHeader() {
     const headerContainer = document.getElementById('header');
-    fetch('/views/header.html')
-        .then(response => response.text())
-        .then(data => {
-            headerContainer.innerHTML = data;
-        })
-        .catch(error => {
-            console.error('Error loading header:', error);
-        });
+    if (headerContainer) {
+        fetch('/views/header.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to load header. HTTP status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                headerContainer.innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading header:', error);
+            });
+    } else {
+        console.error("Header container with ID 'header' not found.");
+    }
 }
 
 // Function to load the footer HTML dynamically
 function loadFooter() {
     const footerContainer = document.getElementById('footer');
-    fetch('/views/footer.html')
-        .then(response => response.text())
-        .then(data => {
-            footerContainer.innerHTML = data;
-        })
-        .catch(error => {
-            console.error('Error loading footer:', error);
-        });
+    if (footerContainer) {
+        fetch('/views/footer.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to load footer. HTTP status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                footerContainer.innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading footer:', error);
+            });
+    } else {
+        console.error("Footer container with ID 'footer' not found.");
+    }
 }
